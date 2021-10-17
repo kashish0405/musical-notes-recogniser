@@ -13,17 +13,17 @@ array = [1046.50, 1174.66, 1318.51, 1396.91, 1567.98, 1760.00, 1975.53,2093.00, 
 notes = ['C6', 'D6', 'E6', 'F6', 'G6', 'A6', 'B6','C7', 'D7', 'E7', 'F7', 'G7', 'A7', 'B7','C8', 'D8', 'E8', 'F8', 'G8', 'A8', 'B8'];
 mute =false;
 %% set up song
-filename='C:\Users\Kashish Arora\Downloads\FurElise_Slow.mp3';
+filename='C:\Users\Kashish Arora\Downloads\Sample.mp3';
 [song,Fs] = audioread(filename);
 Fs = Fs*4;   % speed up song (original audio file is very slow)
 figure 
-plot(song(:,1)), title('Fur Elise, entire song')
+plot(song(:,1)), title('Entire song')
 %% analyse window of song
 t1 = 2.9e6;t2=4.9e6; %(change based on song)
 y=song(t1:t2);
 [~,n]=size(y);
-audiowrite('Fur_Elise_window.wav',y,Fs);
-[y2,Fs2] = audioread('Fur_Elise_window.wav');
+audiowrite('Sample_window.wav',y,Fs);
+[y2,Fs2] = audioread('Sample_window.wav');
 
 %Listen to the audio.
 sound(y2,Fs2);
@@ -82,6 +82,7 @@ title('Detected notes using moving threshold')
         
 if ~mute, sound(y_thresh,round(Fsm)); 
 end
+
 %% find frequencies of each note
 clc; close all
 
@@ -109,9 +110,10 @@ while i < p
                if (f(index) > 20)
                    i_note = i_note + 1;
                    fundamentals(i_note) = f(index)*2;
-                   figure, plot(f,abs(Note(1:length(f))))
-                           title(['Fundamental frequency = ',num2str(fundamentals(i_note)),' Hz'])
-                           %plot(note_padded)
+                   figure
+                   plot(f,abs(Note(1:length(f))))
+                   title(['Fundamental frequency = ',num2str(fundamentals(i_note)),' Hz'])
+                    
                end
                i = i + 50;
            end
